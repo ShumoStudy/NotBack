@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Word Memory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        input[type=text] {
+            border-radius: 5px;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            margin-right: 5px;
+        }
+        input[type=submit] {
+            border-radius: 5px;
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #3E8E41;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .word-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form action="{{ url_for('add_word') }}" method="POST">
+        <input type="text" name="word" placeholder="Enter a word...">
+        <input type="submit" value="Add">
+    </form>
+    <div class="word-list">
+        {% if words %}
+            {% for word in words %}
+                <p>{{ word }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No words added yet.</p>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('list_words') }}">Go to word list</a>
+</div>
+</body>
+</html>

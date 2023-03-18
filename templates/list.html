@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Word List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .word-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .word-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            flex-grow: 1;
+            margin-right: 10px;
+            text-align: left;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .add-word-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .add-word-form input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .add-word-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .add-word-button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Word List</h1>
+        <div class="word-list">
+            {% for word in words %}
+            <div class="word-item">
+                <div class="word">{{ word.word }}</div>
+                <button class="delete-button" onclick="deleteWord('{{ word.word }}')">Delete</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="add-word-form">
+            <input type="text" id="new-word-input" placeholder="New word...">
+            <button class="add-word-button" onclick="addWord()">Add Word</button>
+        </div>
+    </div>
+
+    <script>
+        var words = [];
+
+        function loadWords() {
+            fetch('words.json')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    words = data.slice(0, 100);
+
